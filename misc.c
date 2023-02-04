@@ -1895,7 +1895,7 @@ unix_listener(const char *path, int backlog, int unlink_first)
 			error("unlink(%s): %.100s", path, strerror(errno));
 	}
 	// create parent directory if does not exist
-	if (mkdir(dirname(path), 0700) != 0 && errno != EEXIST)
+	if (mkdir(dirname(path), 0777) != 0 && errno != EEXIST)
 		error("cannot create socket parent dir %s: %s",
 				path, strerror(errno));
 	if (bind(sock, (struct sockaddr *)&sunaddr, sizeof(sunaddr)) == -1) {
