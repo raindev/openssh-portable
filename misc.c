@@ -1896,8 +1896,8 @@ unix_listener(const char *path, int backlog, int unlink_first)
 	}
 
 	/* create parent directory if does not exist */
-	mode_t old_umask = umask(022); /* relax umask to create executable dir */
-	if (mkdir(dirname(path), 0777) != 0 && errno != EEXIST)
+	mode_t old_umask = umask(077); /* relax umask to create executable dir */
+	if (mkdir(dirname(path), 0700) != 0 && errno != EEXIST)
 		error("cannot create socket parent dir %s: %s",
 				path, strerror(errno));
 	(void) umask(old_umask);
