@@ -1894,10 +1894,14 @@ unix_listener(const char *path, int backlog, int unlink_first)
 		if (unlink(path) != 0 && errno != ENOENT)
 			error("unlink(%s): %.100s", path, strerror(errno));
 	}
-	// create parent directory if does not exist
+
+	/* create parent directory if does not exist */
+	mode_t old_umask = umask(022); /* relax umask to create executable dir */
 	if (mkdir(dirname(path), 0777) != 0 && errno != EEXIST)
 		error("cannot create socket parent dir %s: %s",
 				path, strerror(errno));
+	(void) umask(old_umask);
+
 	if (bind(sock, (struct sockaddr *)&sunaddr, sizeof(sunaddr)) == -1) {
 		saved_errno = errno;
 		error_f("cannot bind to path %s: %s", path, strerror(errno));
