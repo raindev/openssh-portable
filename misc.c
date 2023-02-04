@@ -29,9 +29,7 @@
 #include <sys/un.h>
 
 #include <limits.h>
-#ifdef HAVE_LIBGEN_H
-# include <libgen.h>
-#endif
+#include <openbsd-compat/dirname.c>
 #ifdef HAVE_POLL_H
 #include <poll.h>
 #endif
